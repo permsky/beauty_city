@@ -72,8 +72,8 @@ WSGI_APPLICATION = 'beauty_city.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": env.dj_db_url(
-        "DATABASE_URL",
+    'default': env.dj_db_url(
+        'DATABASE_URL',
         'sqlite:////{0}'.format(os.path.join(BASE_DIR, 'db.sqlite3'))
     ),
 }
