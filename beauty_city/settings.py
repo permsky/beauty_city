@@ -127,3 +127,9 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'beauty_salon.CustomUser'
+
+AUTHENTICATION_BACKENDS = (
+    # ... your other backends
+    'beauty_salon.auth_backend.PasswordlessAuthBackend',
+    'django.contrib.auth.backends.ModelBackend'
+)

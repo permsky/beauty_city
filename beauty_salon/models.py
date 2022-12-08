@@ -217,8 +217,9 @@ class SMSCode(models.Model):
         max_length=4,
         blank=True,
     )
-    client = models.OneToOneField(
+    client = models.ForeignKey(
         CustomUser,
+        related_name='code',
         verbose_name=_('клиент'),
         on_delete=models.CASCADE
     )
@@ -229,16 +230,6 @@ class SMSCode(models.Model):
 
     def __str__(self):
         return self.number
-    
-    def save(self, *args, **kwargs):
-        # number_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        # code_items = list()
-        # for index in range(4):
-        #     number = random.choice(number_list)
-        #     code_items.append(number)
-        # self.number = ''.join(str(item) for item in code_items)
-        self.number = '1234'
-        super.save(*args, **kwargs)
 
 
 class Comment(models.Model):

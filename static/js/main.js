@@ -399,6 +399,8 @@ $(document).ready(function() {
 		return false
 	})
 
+	$('.confirmPopup__form').submit(function() {})
+
 	//service
 	$('.time__items .time__elems_elem .time__elems_btn').click(function(e) {
 		e.preventDefault()
