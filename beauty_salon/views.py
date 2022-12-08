@@ -16,3 +16,9 @@ def adm(request):
     context = {}
 
     return render(request, 'admin.html', context)
+
+
+def notes(request):
+    context = {}
+
+    return render(request, 'notes.html', context)
