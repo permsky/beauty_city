@@ -28,3 +28,9 @@ def service(request):
     context = {}
 
     return render(request, 'service.html', context)
+
+
+def service_finally(request):
+    context = {}
+
+    return render(request, 'serviceFinally.html', context)

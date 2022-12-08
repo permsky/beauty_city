@@ -18,13 +18,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from beauty_salon.views import adm, index, notes, service
+from beauty_salon.views import adm, index, notes, service, service_finally
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('adm/', adm, name='adm'),
     path('notes/', notes, name='notes'),
     path('service/', service, name='service'),
+    path('service_finally/', service_finally, name='service_finally'),
     path('', index, name='index'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
