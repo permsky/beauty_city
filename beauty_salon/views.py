@@ -22,3 +22,9 @@ def notes(request):
     context = {}
 
     return render(request, 'notes.html', context)
+
+
+def service(request):
+    context = {}
+
+    return render(request, 'service.html', context)
