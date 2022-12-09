@@ -10,10 +10,12 @@ def index(request):
         phone_number = request.POST.get('tel2')
         user, _ = CustomUser.objects.get_or_create(phone_number=phone_number)
         code = SMSCode.objects.create(number='1234', client=user)
-        print(user.code)
+        print(code.number)
         code_text = request.POST.get('num1') + request.POST.get('num2') + request.POST.get('num3') + request.POST.get('num4')
-        if code_text == code:
+        print(code_text)
+        if code_text == code.number:
             login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
+            code.delete()
         else:
             print('Wrong code')
 

@@ -641,11 +641,7 @@
 								</div>
 							</div>
 						</div>
-
-
-
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -656,16 +652,16 @@
 			<div class="box-modal_close arcticmodal-close"><img src="{% static 'img/x.svg' %}" alt="x"></div>
 			<div class="popup__title authPopup__title">Войти по коду</div>
 			<p class="popup__text authPopup__text">Введите свой номер телефона, мы вышлем на него код</p>
-			<form action="." method="POST" class="authPopup__form">
+			<form action="." method="POST" class="authPopup__form" id="authPopup">
 				{% csrf_token %}
 				<div class="contacts__form_inputBlock">
-					<input type="text" name="tel" class="contacts__form_iunput" placeholder="+7(999)999--99-99" required="">
+					<input type="text" name="tel" id="tel" class="contacts__form_iunput" placeholder="+7(999)999--99-99" required="">
 				</div>
 				<div class="contacts__form_checkboxBlock fic">
 					<input type="checkbox" class="contacts__form_checkbox" checked="">
 					<span class="contacts__form_checkboxBlock__intro">Я согласен(а) с политикой конфидециоальности</span>
 				</div>
-				<button type="submit" class="popup__btn authPopup__btn">Отправить</button>
+				<button type="submit" class="popup__btn authPopup__btn" id="authPopup__btn">Отправить</button>
 			</form>
 		</div>
 	</div>
@@ -673,15 +669,15 @@
 		<div class="box-modal confirmPopup popup" id="confirmModal">
 			<div class="box-modal_close arcticmodal-close"><img src="{% static 'img/x.svg' %}" alt="x"></div>
 			<div class="popup__title confirmPopup__title">Подтвердите номер</div>
-			<p class="popup__text confirmPopup__text">Введите код, полученный по SMS на номер {{ request.post.tel }}</p>
-			<form action="." method="POST" class="confirmPopup__form">
+			<p class="popup__text confirmPopup__text" id="tel3"></p>
+			<form action="." method="POST" class="confirmPopup__form" id="confirmPopup">
 				{% csrf_token %}
 				<div class="confirmPopup__number">
 					<input type="text" name="num1" class="tipsPopup__form_inputNum popup__input" placeholder="" required="">
 					<input type="text" name="num2" class="tipsPopup__form_inputNum popup__input" placeholder="" required="">
 					<input type="text" name="num3" class="tipsPopup__form_inputNum popup__input" placeholder="" required="">
 					<input type="text" name="num4" class="tipsPopup__form_inputNum popup__input" placeholder="" required="">
-					<input type="text" name="tel2" class="contacts__form_iunput" value="{{ request.post.tel }}" hidden="true">
+					<input type="text" id="tel2" name="tel2" class="contacts__form_iunput" value="" hidden="true">
 				</div>
 				<button type="submit" class="popup__btn confirmPopup__btn">Отправить</button>
 		    </form>

@@ -377,8 +377,6 @@ $(document).ready(function() {
 	$('.header__block_auth').click(function(e) {
 		e.preventDefault()
 		$('#authModal').arcticmodal();
-		// $('#confirmModal').arcticmodal();
-
 	})
 
 	$('.rewiewPopupOpen').click(function(e) {
@@ -394,12 +392,13 @@ $(document).ready(function() {
 		$('#tipsModal').arcticmodal();
 	})
 
-	$('.authPopup__form').submit(function() {
+	$('#authPopup__btn').click(function(e) {
+		let input = document.getElementById('tel').value;
+		document.getElementById('tel2').value = input;
+		document.getElementById('tel3').innerHTML = 'Введите код, полученный по SMS на номер ' + input;
 		$('#confirmModal').arcticmodal();
-		return false
+		e.preventDefault();
 	})
-
-	$('.confirmPopup__form').submit(function() {})
 
 	//service
 	$('.time__items .time__elems_elem .time__elems_btn').click(function(e) {
