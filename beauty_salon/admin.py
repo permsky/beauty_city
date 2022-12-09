@@ -3,11 +3,9 @@ from django.contrib.auth import get_user_model
 
 from beauty_salon.models import (
     SMSCode,
-    Manager,
     Master,
     Salon,
     Entry,
-    Client,
     SchedulePoint,
     Procedure,
     Comment
@@ -50,16 +48,6 @@ class ProcedureAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(Client)
-class ClientAdmin(admin.ModelAdmin):
-    list_display = [
-        'id',
-        'first_name',
-        'phone_number',
-        'photo'
-    ]
-
-
 @admin.register(SchedulePoint)
 class SchedulePointAdmin(admin.ModelAdmin):
     list_display = [
@@ -80,16 +68,6 @@ class EntryAdmin(admin.ModelAdmin):
         'client',
         'service',
         'salon'
-    ]
-
-
-@admin.register(Manager)
-class ManagerAdmin(admin.ModelAdmin):
-    list_display = [
-        'id',
-        'first_name',
-        'phone_number',
-        'photo'
     ]
 
 
