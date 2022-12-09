@@ -1,0 +1,36 @@
+[
+    {"type": "salons", "salons": [
+        {"name": "BeautyCity на Пушкина", "address": "ул. Пушкина, д.17", "photo": "salons/salon1.svg"},
+        {"name": "BeautyCity на Ленина", "address": "ул. Ленина, д.22", "photo": "salons/salon2.svg"},
+        {"name": "BeautyCity на Гагарина", "address": "ул. Гагарина, д.8", "photo": "salons/salon3.svg"},
+        {"name": "BeautyCity на Крупской", "address": "ул. Крупской, д.76", "photo": "salons/salon1.svg"}
+    ]},
+    {"type": "masters", "masters": [
+        {"name": "Ольга Чекменева", "photo": "masters/master1.svg", "specialty": "Стилист", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]},
+        {"name": "Милана Романова", "photo": "masters/master2.svg", "specialty": "Стилист", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]},
+        {"name": "Дарина Сергеева", "photo": "masters/master5.svg", "specialty": "Визажист", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]},
+        {"name": "Галина Давыдова", "photo": "masters/master6.svg", "specialty": "Визажист", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]},
+        {"name": "Лариса Суворова", "photo": "masters/master1.svg", "specialty": "Мастер маникюра", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]},
+        {"name": "Мария Иванова", "photo": "masters/master2.svg", "specialty": "Мастер маникюра", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]},
+        {"name": "Ксения Васильева", "photo": "masters/master3.svg", "specialty": "Мастер маникюра", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]},
+        {"name": "Алла Белая", "photo": "masters/master4.svg", "specialty": "Мастер маникюра", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]},
+        {"name": "Лидия Краснова", "photo": "masters/master1.svg", "specialty": "Парикмахер", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]},
+        {"name": "Екатерина Лапина", "photo": "masters/master2.svg", "specialty": "Парикмахер", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]},
+        {"name": "Евгения Колесова", "photo": "masters/master3.svg", "specialty": "Парикмахер", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]},
+        {"name": "Инна Бекмансурова", "photo": "masters/master4.svg", "specialty": "Парикмахер", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]},
+        {"name": "Ольга Чижова", "photo": "masters/master1.svg", "specialty": "Парикмахер", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]},
+        {"name": "Ольга Караваева", "photo": "masters/master2.svg", "specialty": "Парикмахер", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]},
+        {"name": "Ольга Максимова", "photo": "masters/master3.svg", "specialty": "Парикмахер", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]},
+        {"name": "Виктория Чунарева", "photo": "masters/master4.svg", "specialty": "Парикмахер", "time": [10, 11, 12, 14, 15, 16, 17, 18, 19]}
+    ]},
+    {"type": "procedures", "procedures": [
+        {"name": "Маникюр. Классический. Гель", "photo": "services/service2.svg", "price": 2000},
+        {"name": "Наращивание ногтей", "photo": "services/service2.svg", "price": 1400},
+        {"name": "Макияж", "photo": "services/service1.svg", "price": 1400},
+        {"name": "Укладка волос", "photo": "services/service3.svg", "price": 1500},
+        {"name": "Консультация стилиста", "photo": "services/service4.svg", "price": 3000},
+        {"name": "Педикюр", "photo": "services/service5.svg", "price": 2000},
+        {"name": "Окрашивание волос", "photo": "services/service6.svg", "price": 3000},
+        {"name": "Стрижка", "photo": "services/service3.svg", "price": 1000}
+    ]}
+]

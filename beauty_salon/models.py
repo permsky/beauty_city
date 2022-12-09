@@ -67,7 +67,8 @@ class Master(models.Model):
         Salon,
         on_delete=models.DO_NOTHING,
         related_name='masters',
-        verbose_name='салон'
+        verbose_name='салон',
+        null=True
     )
 
     class Meta:
@@ -137,13 +138,15 @@ class SchedulePoint(models.Model):
     status = models.CharField(
         'статус',
         max_length=10,
-        choices=STATUSES
+        choices=STATUSES,
+        default='available'
     )
     master = models.ForeignKey(
         Master,
         on_delete=models.CASCADE,
         related_name='schedule_points',
-        verbose_name='мастер'
+        verbose_name='мастер',
+        null=True
     )
 
     class Meta:
