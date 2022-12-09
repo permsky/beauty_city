@@ -11,6 +11,7 @@ class CustomUser(AbstractUser):
     phone_number = PhoneNumberField(_('номер телефона'), unique=True)
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['username']
+    is_manager = models.BooleanField('является менеджером', default=False)
 
     def __str__(self):
         return str(self.phone_number)
@@ -114,20 +115,6 @@ class Procedure(models.Model):
         return self.name
 
 
-class Client(CustomUser):
-    photo = models.ImageField(
-        blank=True,
-        verbose_name='фото'
-    )
-
-    class Meta:
-        verbose_name = _('клиент')
-        verbose_name_plural = _('клиенты')
-
-    def __str__(self):
-        return f'Клиент {self.first_name}'
-
-
 class SchedulePoint(models.Model):
     STATUSES = [
         ('available', 'available'),
@@ -174,7 +161,7 @@ class Entry(models.Model):
         verbose_name='мастер'
     )
     client = models.ForeignKey(
-        Client,
+        CustomUser,
         on_delete=models.DO_NOTHING,
         related_name='client_entries',
         verbose_name='клиент'
@@ -198,20 +185,6 @@ class Entry(models.Model):
 
     def __str__(self):
         return f'{self.salon} {self.service} {self.client}'
-
-
-class Manager(CustomUser):
-    photo = models.ImageField(
-        blank=True,
-        verbose_name='фото'
-    )
-
-    class Meta:
-        verbose_name = _('менеджер')
-        verbose_name_plural = _('менеджеры')
-
-    def __str__(self):
-        return f'Менеджер {self.first_name}'
 
 
 class SMSCode(models.Model):
@@ -246,7 +219,7 @@ class Comment(models.Model):
         verbose_name='мастер'
     )
     client = models.ForeignKey(
-        Client,
+        CustomUser,
         on_delete=models.DO_NOTHING,
         related_name='comments',
         verbose_name='клиент'
