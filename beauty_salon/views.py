@@ -23,6 +23,17 @@ logger = logging.getLogger(__name__)
 
 
 def index(request):
+    salons = Salon.objects.all()
+    procedures = Procedure.objects.all()
+    masters = Master.objects.all().annotate(comment_count=Count('ratings'))
+    comments = Comment.objects.all()
+
+    context = {
+        'salons': salons,
+        'procedures': procedures,
+        'masters': masters,
+        'comments': comments,
+    }
     if request.method == 'POST':
         print(request.POST)
         phone_number = request.POST.get('tel2')
@@ -37,18 +48,6 @@ def index(request):
             code.delete()
         else:
             print('Wrong code')
-    else:
-        salons = Salon.objects.all()
-        procedures = Procedure.objects.all()
-        masters = Master.objects.all().annotate(comment_count=Count('ratings'))
-        comments = Comment.objects.all()
-
-        context = {
-            'salons': salons,
-            'procedures': procedures,
-            'masters': masters,
-            'comments': comments,
-        }
 
     return render(request, 'index.html', context)
 
