@@ -126,6 +126,11 @@ cursor: pointer;
 display: flex;
 align-items: center;
 }
+.header__block_auth_in {
+cursor: pointer;
+display: flex;
+align-items: center;
+}
 .header__account_img {
 	margin-right: 5px;
 	width: 30px;
@@ -1402,6 +1407,7 @@ border-radius: 5px;
 	margin-bottom: 14px;
 }
 .accaunt__ava_img {
+	height: 100px;
 	margin-right: 11px;
 }
 .accaunt__ava_name {

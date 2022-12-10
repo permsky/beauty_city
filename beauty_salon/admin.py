@@ -17,7 +17,7 @@ User = get_user_model()
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['id', 'phone_number', 'first_name']
+    list_display = ['id', 'phone_number', 'first_name', 'photo']
 
 
 @admin.register(Salon)
@@ -64,7 +64,6 @@ class EntryAdmin(admin.ModelAdmin):
     list_display = [
         'id',
         'status',
-        'master',
         'client',
         'service',
         'salon'
