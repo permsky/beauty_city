@@ -42,26 +42,36 @@ def adm(request):
 
 @login_required
 def notes(request):
-    if request.method == 'GET':
-        current_date = datetime.now().date()
-        current_time = datetime.now().time()
-        entries = Entry.objects.filter(client=request.user)
-        past_entries = (
-            entries
-            .filter(time_point__date__lte=current_date)
-            .filter(time_point__time__lte=current_time)
+    current_date = datetime.now().date()
+    current_time = datetime.now().time()
+    entries = Entry.objects.filter(client=request.user)
+    past_entries = (
+        entries
+        .filter(time_point__date__lte=current_date)
+        .filter(time_point__time__lte=current_time)
+    )
+    future_entries = (
+        entries
+        .filter(time_point__date__gt=current_date)
+        .filter(time_point__time__gt=current_time)
+    )
+    debt = entries.filter(status='not_payed').aggregate(Sum('service__price'))
+    context = {
+        'past_entries': past_entries,
+        'future_entries': future_entries,
+        'debt': debt
+    }
+    if request.method == 'POST':
+        print(request.POST)
+        request.user.first_name = request.POST['fname']
+        entry = Entry.objects.get(id=request.POST['noteNumber'])
+        Comment.objects.create(
+            text=request.POST['popupTextarea'],
+            date=entry.time_point.date,
+            rating=request.POST['masterRating'],
+            master=entry.time_point.master,
+            client=request.user
         )
-        future_entries = (
-            entries
-            .filter(time_point__date__gt=current_date)
-            .filter(time_point__time__gt=current_time)
-        )
-        debt = entries.filter(status='not_payed').aggregate(Sum('service__price'))
-        context = {
-            'past_entries': past_entries,
-            'future_entries': future_entries,
-            'debt': debt
-        }
 
     return render(request, 'notes.html', context)
 
