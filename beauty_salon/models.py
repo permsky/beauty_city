@@ -11,6 +11,11 @@ class CustomUser(AbstractUser):
     phone_number = PhoneNumberField(_('номер телефона'), unique=True)
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['username']
+    photo = models.ImageField(
+        blank=True,
+        verbose_name='фото',
+        null=True
+    )
     is_manager = models.BooleanField('является менеджером', default=False)
 
     def __str__(self):
@@ -154,12 +159,12 @@ class Entry(models.Model):
         max_length=10,
         choices=STATUSES
     )
-    master = models.ForeignKey(
-        Master,
-        on_delete=models.DO_NOTHING,
-        related_name='master_entries',
-        verbose_name='мастер'
-    )
+    # master = models.ForeignKey(
+    #     Master,
+    #     on_delete=models.DO_NOTHING,
+    #     related_name='master_entries',
+    #     verbose_name='мастер'
+    # )
     client = models.ForeignKey(
         CustomUser,
         on_delete=models.DO_NOTHING,
@@ -177,6 +182,13 @@ class Entry(models.Model):
         on_delete=models.DO_NOTHING,
         related_name='salon_entries',
         verbose_name='салон'
+    )
+    time_point = models.ForeignKey(
+        SchedulePoint,
+        on_delete=models.DO_NOTHING,
+        related_name='time_entries',
+        verbose_name='время записи',
+        null=True
     )
 
     class Meta:

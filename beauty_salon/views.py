@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from .models import CustomUser, SMSCode
+from django.db.models import Sum
+from datetime import datetime
+
+from .models import CustomUser, SMSCode, Entry, Master
 
 
 def index(request):
@@ -30,8 +34,28 @@ def adm(request):
     return render(request, 'admin.html', context)
 
 
+@login_required
 def notes(request):
-    context = {}
+    if request.method == 'GET':
+        current_date = datetime.now().date()
+        current_time = datetime.now().time()
+        entries = Entry.objects.filter(client=request.user)
+        past_entries = (
+            entries
+            .filter(time_point__date__lte=current_date)
+            .filter(time_point__time__lte=current_time)
+        )
+        future_entries = (
+            entries
+            .filter(time_point__date__gt=current_date)
+            .filter(time_point__time__gt=current_time)
+        )
+        debt = entries.filter(status='not_payed').aggregate(Sum('service__price'))
+        context = {
+            'past_entries': past_entries,
+            'future_entries': future_entries,
+            'debt': debt
+        }
 
     return render(request, 'notes.html', context)
 

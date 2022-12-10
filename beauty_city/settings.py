@@ -133,3 +133,5 @@ AUTHENTICATION_BACKENDS = (
     'beauty_salon.auth_backend.PasswordlessAuthBackend',
     'django.contrib.auth.backends.ModelBackend'
 )
+
+LOGOUT_REDIRECT_URL='index'
