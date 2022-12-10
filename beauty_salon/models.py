@@ -125,7 +125,7 @@ class SchedulePoint(models.Model):
         ('available', 'available'),
         ('busy', 'busy')
     ]
-    date = models.DateField('название')
+    date = models.DateField('дата записи')
     time = models.TimeField('время записи')
     status = models.CharField(
         'статус',
