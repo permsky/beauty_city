@@ -31,10 +31,12 @@ def index(request):
     else:
         salons = Salon.objects.all()
         procedures = Procedure.objects.all()
+        masters = Master.objects.all()
 
     context = {
         'salons': salons,
-        'procedures': procedures
+        'procedures': procedures,
+        'masters': masters
     }
 
     return render(request, 'index.html', context)
