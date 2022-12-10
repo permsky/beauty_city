@@ -8,7 +8,15 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.shortcuts import redirect, render
 
-from .models import CustomUser, Entry, Master, SMSCode, Salon, Procedure
+from .models import (
+    CustomUser,
+    Entry,
+    Master,
+    SMSCode,
+    Salon,
+    Procedure,
+    Comment
+)
 
 
 logger = logging.getLogger(__name__)
