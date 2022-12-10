@@ -85,7 +85,7 @@ class Master(models.Model):
         return f'{self.specialty} {self.name}'
 
     def get_experience(self):
-        self.experience = datetime.now().date() - self.start_date
+        self.experience = datetime.now().date() - (self.start_date if self.start_date else datetime.now().date())
         return self.experience
     
     def evaluate_rating(self):

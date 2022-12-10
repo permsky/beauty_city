@@ -5,7 +5,7 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from django.shortcuts import redirect, render
 
 from .models import (
@@ -40,13 +40,15 @@ def index(request):
     else:
         salons = Salon.objects.all()
         procedures = Procedure.objects.all()
-        masters = Master.objects.all()
+        masters = Master.objects.all().annotate(comment_count=Count('ratings'))
+        comments = Comment.objects.all()
 
-    context = {
-        'salons': salons,
-        'procedures': procedures,
-        'masters': masters
-    }
+        context = {
+            'salons': salons,
+            'procedures': procedures,
+            'masters': masters,
+            'comments': comments,
+        }
 
     return render(request, 'index.html', context)
 
