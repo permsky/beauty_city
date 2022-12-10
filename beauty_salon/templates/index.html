@@ -219,7 +219,7 @@
 								<div class="masters__header_elmes">
 									<div class="masters__header_name">{{ master.name }}</div>
 									<img src="{% static 'img/rating.svg' %}" alt="rating" class="masters__header_rating">
-									<div class="masters__header_reviews">X отзыва</div>
+									<div class="masters__header_reviews">Отзывов: {{ master.comment_count }}</div>
 								</div>
 							</div>
 							<div class="masters__main">
@@ -229,7 +229,7 @@
 							<div class="masters__footer fic">
 								<div class="masters__footer_block">
 									<div class="masters__footer_light">СТАЖ РАБОТЫ:</div>
-									<div class="masters__footer_num">{{ master.experience }}</div>
+									<div class="masters__footer_num">{{ master.get_experience }}</div>
 								</div>
 								<button class="masters__footer_btn">Записаться</button>
 							</div>
