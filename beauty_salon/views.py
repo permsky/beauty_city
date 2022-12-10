@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.shortcuts import redirect, render
 
-from .models import CustomUser, Entry, Master, SMSCode
+from .models import CustomUser, Entry, Master, SMSCode, Salon
 
 logger = logging.getLogger(__name__)
 
@@ -28,8 +28,12 @@ def index(request):
             code.delete()
         else:
             print('Wrong code')
+    else:
+        salons = Salon.objects.all()
 
-    context = {}
+    context = {
+        'salons': salons
+    }
 
     return render(request, 'index.html', context)
 
