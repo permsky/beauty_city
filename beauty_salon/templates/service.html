@@ -95,8 +95,8 @@
 		</div>
 	</header>
 
-  <form method="post">
-    {% csrf_token %}
+  {% comment %} <form> {% endcomment %}
+    {% comment %} {% csrf_token %} {% endcomment %}
 
     <section id="service">
       <div class="container">
@@ -111,7 +111,7 @@
           </div>
 
             <div class="service__form_block service__salons">
-              <button class="accordion">(Выберете салон)</button>
+              <button class="accordion" id="id_salon">(Выберете салон)</button>
               <div class="panel">
                 <div class="accordion__block fic">
                   <div class="accordion__block_intro">BeautyCity Пушкинская</div>
@@ -244,7 +244,7 @@
           <div class="time__btns">
             <div class="row">
               <div class="col-md-12">
-                <button class="time__btns_next">Далее</button>
+                <button class="time__btns_next" id="post-btn">Далее</button>
                 <button class="time__btns_home" onclick="location.href='{% url 'index' %}'">На главную</button>
               </div>
             </div>
@@ -252,7 +252,7 @@
         </div>
       </div>
     </section>
-  </form>
+  {% comment %} </form> {% endcomment %}
 
 	<footer id="footer">
 		<div class="container">
@@ -320,8 +320,42 @@
 			</div>
 		</div>
 	</footer>
+
+  {% csrf_token %}
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="{% static 'js/main.js' %}"></script>
+  <script>
+    const button = document.getElementById('post-btn');
+
+    button.addEventListener('click', async _ => {
+      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+      let data = {
+          'file': 'file',
+          'fileName': 'file.name',
+      };
+
+      console.log('csrfmiddlewaretoken: ' + csrftoken);
+
+      try {
+        const response = await fetch(
+          '{% url 'service' %}',
+          {
+            headers: { "X-CSRFToken": csrftoken },
+            method: 'post',
+            body: JSON.stringify(data),
+            });
+
+          console.log('Completed!', response);
+
+          window.location.href = '{% url 'service_finally' %}';
+
+      } catch(err) {
+        console.error(`Error: ${err}`);
+      }
+    });
+  </script>
 </body>
 </html>
