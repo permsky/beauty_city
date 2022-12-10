@@ -444,7 +444,7 @@
 		<div class="box-modal confirmPopup popup" id="confirmModal">
 			<div class="box-modal_close arcticmodal-close"><img src="{% static 'img/x.svg' %}" alt="x"></div>
 			<div class="popup__title confirmPopup__title">Подтвердите номер</div>
-			<p class="popup__text confirmPopup__text" id="tel3"></p>
+			<p class="popup__text confirmPopup__text" id="tel2"></p>
 			<form action="." method="POST" class="confirmPopup__form" id="confirmPopup">
 				{% csrf_token %}
 				<div class="confirmPopup__number">
@@ -452,7 +452,6 @@
 					<input type="text" name="num2" class="tipsPopup__form_inputNum popup__input" placeholder="" required="">
 					<input type="text" name="num3" class="tipsPopup__form_inputNum popup__input" placeholder="" required="">
 					<input type="text" name="num4" class="tipsPopup__form_inputNum popup__input" placeholder="" required="">
-					<input type="text" id="tel2" name="tel2" class="contacts__form_iunput" value="" hidden="true">
 				</div>
 				<button type="submit" class="popup__btn confirmPopup__btn">Отправить</button>
 		    </form>
@@ -468,5 +467,39 @@
 	<script src="{% static 'js/air-datepicker.js' %}"></script>
 	<script src="{% static 'js/jquery.arcticmodal-0.3.min.js' %}"></script>
 	<script src="{% static 'js/main.js' %}"></script>
+	<script>
+		const button = document.getElementById('authPopup__btn');
+	
+		button.addEventListener('click', async _ => {
+		  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+	
+		  let data = {
+			  'phone_number': document.getElementById('tel').value
+		  };
+	
+		  console.log('csrfmiddlewaretoken: ' + csrftoken);
+		  console.log(data);
+	
+		  try {
+			const response = await fetch(
+			  '{% url 'index' %}',
+			  {
+				headers: {
+					'X-CSRFToken': csrftoken,
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				method: 'post',
+				body: JSON.stringify(data),
+				}
+			);
+	
+			  console.log('Completed!', response);
+	
+		  } catch(err) {
+			console.error(`Error: ${err}`);
+		  }
+		});
+	</script>
 </body>
 </html>
