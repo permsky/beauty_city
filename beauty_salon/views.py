@@ -1,7 +1,13 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+import json
+import logging
+
 from django.conf import settings
+from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect, render
+
 from .models import CustomUser, SMSCode
+
+logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -11,7 +17,8 @@ def index(request):
         user, _ = CustomUser.objects.get_or_create(phone_number=phone_number)
         code = SMSCode.objects.create(number='1234', client=user)
         print(code.number)
-        code_text = request.POST.get('num1') + request.POST.get('num2') + request.POST.get('num3') + request.POST.get('num4')
+        code_text = request.POST.get(
+            'num1') + request.POST.get('num2') + request.POST.get('num3') + request.POST.get('num4')
         print(code_text)
         if code_text == code.number:
             login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
@@ -38,6 +45,12 @@ def notes(request):
 
 def service(request):
     context = {}
+
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        logger.info('AJAX POST')
+
+        return redirect('service_finally')
 
     return render(request, 'service.html', context)
 
