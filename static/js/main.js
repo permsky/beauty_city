@@ -394,8 +394,7 @@ $(document).ready(function() {
 
 	$('#authPopup__btn').click(function(e) {
 		let input = document.getElementById('tel').value;
-		document.getElementById('tel2').value = input;
-		document.getElementById('tel3').innerHTML = 'Введите код, полученный по SMS на номер ' + input;
+		document.getElementById('tel2').innerHTML = 'Введите код, полученный по SMS на номер ' + input;
 		$('#confirmModal').arcticmodal();
 		e.preventDefault();
 	})
