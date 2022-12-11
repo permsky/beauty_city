@@ -71,7 +71,7 @@ def notes(request):
     entries = Entry.objects.filter(client=request.user)
     past_entries = entries.filter(time_point__date__lt=current_date)
     future_entries = entries.filter(time_point__date__gt=current_date)
-    current_entries = entries.filter(time_point__time__eq=current_date)
+    current_entries = entries.filter(time_point__date=current_date)
     debt = entries.filter(status='not_payed').aggregate(Sum('service__price'))
     context = {
         'past_entries': past_entries,
