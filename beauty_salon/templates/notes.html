@@ -227,8 +227,9 @@
 							</div>
 						</div>
 						<div class="notes__content notes__content_upcoming">
-							<div class="notes__main_title">ПРЕДСТОЯЩИЕ</div>
-
+							{% if future_entries %}
+								<div class="notes__main_title">ПРЕДСТОЯЩИЕ</div>
+							{% endif %}
 							{% for entry in future_entries %}
 								<div class="notes__main_block">
 									<img src="{{ entry.service.photo.url }}" alt="service1" class="notes__main_block__img">
@@ -280,7 +281,9 @@
 						</div>
 
 						<div class="notes__content notes__content_upcoming">
-							<div class="notes__main_title">СЕГОДНЯ</div>
+							{% if current_entries %}
+								<div class="notes__main_title">СЕГОДНЯ</div>
+							{% endif %}
 
 							{% for entry in current_entries %}
 								<div class="notes__main_block">
@@ -333,8 +336,9 @@
 						</div>
 
 						<div class="notes__content notes__content_history">
-							<div class="notes__main_title">ПРОШЕДШИЕ</div>
-
+							{% if past_entries %}
+								<div class="notes__main_title">ПРОШЕДШИЕ</div>
+							{% endif %}
 							{% for entry in past_entries %}
 								<div class="notes__main_block">
 									<img src="{{ entry.service.photo.url }}" alt="service1" class="notes__main_block__img">
