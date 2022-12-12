@@ -15,6 +15,7 @@ from .models import (
     Master,
     SMSCode,
     Salon,
+    SchedulePoint,
     Procedure,
     Comment
 )
@@ -153,12 +154,15 @@ def service_finally(request):
                 status='not_payed',
                 client=user,
                 service=service,
-                salon=salon
+                salon=salon,
+                time_point=SchedulePoint.objects.all().filter(status='available').first()
             )
 
             entry.save()
 
             del request.session['service']
+
+            return redirect('notes')
 
         else:
             context = {
