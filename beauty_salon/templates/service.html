@@ -129,7 +129,7 @@
             </div>
 
             <div class="service__form_block service__services">
-              <button class="accordion">(Выберете услугу)</button>
+              <button class="accordion" id="id_service">(Выберете услугу)</button>
               <div class="panel">
                 <button class="accordion">Парикмахерские услуги</button>
                 <div class="panel">
@@ -191,7 +191,7 @@
             </div>
 
             <div class="service__form_block service__masters">
-              <button class="accordion">(Выберете мастера)</button>
+              <button class="accordion" id="id_master">(Выберете мастера)</button>
               <div class="panel">
               </div>
             </div>
@@ -331,13 +331,17 @@
 
     button.addEventListener('click', async _ => {
       const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      console.log('csrfmiddlewaretoken: ' + csrftoken);
+
+      console.log('Salon: ' + document.getElementById('id_salon').textContent)
+      console.log('Service: ' + document.getElementById('id_service').textContent)
+      console.log('Master: ' + document.getElementById('id_master').textContent)
 
       let data = {
-          'file': 'file',
-          'fileName': 'file.name',
+          'salon': document.getElementById('id_salon').textContent,
+          'service': document.getElementById('id_service').textContent,
+          'master': document.getElementById('id_master').textContent,
       };
-
-      console.log('csrfmiddlewaretoken: ' + csrftoken);
 
       try {
         const response = await fetch(
@@ -350,7 +354,7 @@
 
           console.log('Completed!', response);
 
-          window.location.href = '{% url 'service_finally' %}';
+          //window.location.href = '{% url 'service_finally' %}';
 
       } catch(err) {
         console.error(`Error: ${err}`);
