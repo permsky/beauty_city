@@ -152,10 +152,24 @@
 							</div>
 							<div class="serviceFinally__form_itesm">
 								<div class="contacts__form_block fic">
-									<input type="text" name="fname" class="contacts__form_iunput" placeholder="Введите имя" required="">
-									<div class="contacts__form_inputBlock">
-										<input type="text" name="tel" class="contacts__form_iunput" placeholder="+7(999)999--99-99" required="">
-									</div>
+
+
+                  {% if user.is_authenticated %}
+
+                    <input type="text" name="fname" class="contacts__form_iunput" placeholder="Введите имя" required="" value="{{ user.username }}">
+                    <div class="contacts__form_inputBlock">
+                      <input type="text" name="tel" class="contacts__form_iunput" placeholder="+7(999)999--99-99" required="" value="{{ user.phone_number }}">
+                    </div>
+
+                  {% else %}
+
+                    <input type="text" name="fname" class="contacts__form_iunput" placeholder="Введите имя" required="">
+                    <div class="contacts__form_inputBlock">
+                      <input type="text" name="tel" class="contacts__form_iunput" placeholder="+7(999)999--99-99" required="">
+                    </div>
+
+                  {% endif %}
+
 								</div>
 
 								<textarea name="contactsTextarea" class="contacts__form_textarea" placeholder="Вопрос(необязательно)"></textarea>

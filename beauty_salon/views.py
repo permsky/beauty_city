@@ -126,7 +126,7 @@ def service_finally(request):
         prof = service.get('prof')
         service = service.get('service')
 
-        salon = salon.split('#', maxsplit=1)[0]
+        salon = salon.split('#', maxsplit=1)[0].strip()
         salon = Salon.objects.get(name=salon)
 
         master = Master.objects.get(name=master)
