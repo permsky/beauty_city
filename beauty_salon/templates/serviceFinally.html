@@ -104,7 +104,10 @@
 						<div class="service__block">
 							<h1 class="service__title">Запись на услугу</h1>
 						</div>
-						<form action="#" class="serviceFinally__form">
+						<form method="post" class="serviceFinally__form">
+
+              {% csrf_token %}
+
 							<div class="serviceFinally__form_block">
 								<div class="serviceFinally__form_header fic">
 									<span class="serviceFinally__form_header__number">Запись №32985</span>
@@ -145,7 +148,7 @@
 									<span class="contacts__form_checkboxBlock__intro">Я согласен(а) с политикой конфидециоальности</span>
 								</div>
 								<button type="submit" class="serviceFinallys__form_btn">Записаться</button>
-								<button type="submit" class="serviceFinallys__form_back">Назад</button>
+								<button type="submit" class="serviceFinallys__form_back" onclick="location.href='{% url 'service' %}'">Назад</button>
 							</div>
 						</form>
 					</div>

@@ -1,5 +1,6 @@
 import json
 import logging
+import re
 from datetime import datetime
 
 from django.conf import settings
@@ -41,7 +42,8 @@ def index(request):
         SMSCode.objects.filter(client=user).delete()
         SMSCode.objects.create(number='1234', client=user)
     if request.method == 'POST' and 'num1' in request.POST:
-        user = CustomUser.objects.get(phone_number=request.session['phone_number'])
+        user = CustomUser.objects.get(
+            phone_number=request.session['phone_number'])
         code = SMSCode.objects.get(client=user)
         code_text = (
             request.POST.get('num1')
@@ -97,9 +99,13 @@ def notes(request):
 def service(request):
     context = {}
 
+    # TODO удалить услугу при создании новой.
+    # del request.session['service']
+
     if request.method == 'POST':
-        body = json.loads(request.body)
-        logger.info('AJAX POST')
+        service = json.loads(request.body)
+
+        request.session['service'] = service
 
         return redirect('service_finally')
 
@@ -108,5 +114,59 @@ def service(request):
 
 def service_finally(request):
     context = {}
+
+    if service := request.session.get('service'):
+
+        salon = service.get('salon')
+        master = service.get('master')
+        prof = service.get('prof')
+        service = service.get('service')
+
+        salon = salon.split(' ', maxsplit=2)
+        salon.pop(2)
+        salon = ' '.join(salon)
+        salon = Salon.objects.get(name=salon)
+
+        master = Master.objects.get(name=master)
+
+        price = int(re.sub(r'[\D]', '', service))
+
+        service = service.replace('₽', '').strip()
+        service = re.sub(r'[\d]', '', service).strip()
+
+        service = Procedure.objects.get(name=service)
+
+        if request.method == 'POST':
+            user, is_new_user = CustomUser.objects.get_or_create(
+                phone_number=request.POST.get('tel')
+            )
+
+            if is_new_user:
+                user.username = request.POST.get('fname')
+                user.save()
+
+            login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
+
+            entry = Entry(
+                status='not_payed',
+                client=user,
+                service=service,
+                salon=salon
+            )
+
+            entry.save()
+
+            del request.session['service']
+
+        else:
+            context = {
+                'salon': salon,
+                'master': master,
+                'prof': prof,
+                'price': price,
+                'service': service
+            }
+    else:
+        return redirect('service')
 
     return render(request, 'serviceFinally.html', context)
