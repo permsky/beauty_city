@@ -95,7 +95,7 @@
                 <img src="{% static 'img/acc.svg' %}" alt="account" class="header__account_img">
                 <span class="header__block_auth__intro">Войти</span>
               {% endif %}
-              
+
 						</div>
 					</div>
 					</div>
@@ -122,19 +122,25 @@
 								<div class="serviceFinally__form_header fic">
 									<span class="serviceFinally__form_header__number">Запись №32985</span>
 									<div class="serviceFinally__form_header__item fic">
-										<div class="serviceFinally__form_header__service">BeautyCity Пушкинская</div>
-										<div class="serviceFinally__form_header__address">ул. Пушкинская, д. 78А</div>
+										<div class="serviceFinally__form_header__service">{{ salon.name }}</div>
+										<div class="serviceFinally__form_header__address">{{ salon.address }}</div>
 									</div>
 								</div>
 								<div class="serviceFinally__form_content">
 									<div class="serviceFinally__form_content__block fic">
-										<div class="serviceFinally__form_content__title">Дневной макияж</div>
-										<div class="serviceFinally__form_content__price">750 ₽</div>
+										<div class="serviceFinally__form_content__title">{{ service.name }}</div>
+										<div class="serviceFinally__form_content__price">{{ price }} ₽</div>
 									</div>
 									<div class="serviceFinally__form_content__block fic">
 										<div class="serviceFinally__form_content__items fic">
-										  	<img src="{% static 'img/masters/avatar/vizajist1.svg' %}" alt="avatar" class="accordion__block_img">
-										  	<div class="accordion__block_master">Елена Грибнова</div>
+
+                        {% if master.photo %}
+										      <img src="{{ master.photo.url }}" alt="avatar" class="accordion__block_img">
+                        {% else %}
+                          <img src="{% static '/img/acc.svg' %}" alt="avatar" class="accordion__block_img">
+                        {% endif %}
+
+										  	<div class="accordion__block_master">{{ master.name }}</div>
 									    </div>
 									    <div class="serviceFinally__form_content__item fic">
 											<div class="serviceFinally__form_content__time">16:30</div>
