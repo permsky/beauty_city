@@ -84,7 +84,9 @@ def notes(request):
     }
     if request.method == 'POST':
         print(request.POST)
-        request.user.first_name = request.POST['fname']
+        user = CustomUser.objects.get(request.user)
+        user.first_name = request.POST['fname']
+        user.save()
         entry = Entry.objects.get(id=request.POST['noteNumber'])
         Comment.objects.create(
             text=request.POST['popupTextarea'],
