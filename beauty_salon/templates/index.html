@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_filters %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -85,7 +86,11 @@
 							{% if user.is_authenticated %}
 								<a href="{% url 'notes' %}">
 									<div class="header__block_auth_in">
-										<img src="{{ user.photo.url }}" alt="account" class="header__account_img">
+										{% if user.photo %}
+											<img src="{{ user.photo.url }}" alt="account" class="header__account_img">
+										{% else %}
+											<img src="{% static '/img/acc.svg' %}" alt="account" class="header__account_img">
+										{% endif %}
 										<span class="header__block_auth__intro">{{ user.first_name }}</span>
 									</div>
 								</a>
@@ -141,43 +146,17 @@
 				</div>
 				<div class="title dec">Наши салоны</div>
 				<div class="row salonsSlider">
-					<div class="col-6 col-md-4 col-lg-4 col-xl-3">
-						<div class="salons__block">
-							<img src="{% static 'img/salons/salon1.svg' %}" alt="salon" class="salons__block_img">
-							<div class="salons__elems">
-								<div class="block__title salons__elems_title">BeautyCity Пушкинская</div>
-								<div class="salons__elems_light">ул. Пушкинская, д. 78А</div>
+					{% for salon in salons %}
+						<div class="col-6 col-md-4 col-lg-4 col-xl-3">
+							<div class="salons__block">
+								<img src="{{ salon.photo.url }}" alt="{{ salon.name }}" class="salons__block_img">
+								<div class="salons__elems">
+									<div class="block__title salons__elems_title">{{ salon.name }}</div>
+									<div class="salons__elems_light">{{ salon.address }}</div>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-6 col-md-4 col-lg-4 col-xl-3">
-						<div class="salons__block">
-							<img src="{% static 'img/salons/salon2.svg' %}" alt="salon" class="salons__block_img">
-							<div class="salons__elems">
-								<div class="block__title salons__elems_title">BeautyCity Ленина</div>
-								<div class="salons__elems_light">ул. Ленина, д. 211</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-6 col-md-4 col-lg-4 col-xl-3">
-						<div class="salons__block">
-							<img src="{% static 'img/salons/salon3.svg' %}" alt="salon" class="salons__block_img">
-							<div class="salons__elems">
-								<div class="salons__elems_title">BeautyCity Красная</div>
-								<div class="salons__elems_light">ул. Красная, д. 10</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-6 col-md-4 col-lg-4 col-xl-3 decVis">
-						<div class="salons__block">
-							<img src="{% static 'img/salons/salon1.svg' %}" alt="salon" class="salons__block_img">
-							<div class="salons__elems">
-								<div class="salons__elems_title">BeautyCity Красная</div>
-								<div class="salons__elems_light">ул. Красная, д. 10</div>
-							</div>
-						</div>
-					</div>
-
+					{% endfor %}
 				</div>
 			</div>
 		</div>
@@ -198,62 +177,17 @@
 				</div>
 
 				<div class="row servicesSlider">
+					{% for procedure in procedures %}
 					<div class="col-md-3">
 						<div class="cardBlock services__block">
-							<img src="{% static 'img/services/service1.svg' %}" alt="service" class="services__block_img">
+							<img src="{{ procedure.photo.url }}" alt="{{ procedure.name }}" class="services__block_img">
 							<div class="services__elems">
-								<div class="services__elems_title">Дневной макияж</div>
-								<div class="services__elems_light">1 400 ₽</div>
+								<div class="services__elems_title">{{ procedure.name }}</div>
+								<div class="services__elems_light">{{ procedure.price }}₽</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-3">
-						<div class="cardBlock services__block">
-							<img src="{% static 'img/services/service2.svg' %}" alt="service" class="services__block_img">
-							<div class="services__elems">
-								<div class="services__elems_title">Маникюр. Классический. Гель</div>
-								<div class="services__elems_light">2 000 ₽</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="cardBlock services__block">
-							<img src="{% static 'img/services/service3.svg' %}" alt="service" class="services__block_img">
-							<div class="services__elems">
-								<div class="services__elems_title">Укладка волос</div>
-								<div class="services__elems_light">1 500 ₽</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="cardBlock services__block">
-							<img src="{% static 'img/services/service4.svg' %}" alt="service" class="services__block_img">
-							<div class="services__elems">
-								<div class="services__elems_title">Укладка волос</div>
-								<div class="services__elems_light">3 000 ₽</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="cardBlock services__block">
-							<img src="{% static 'img/services/service5.svg' %}" alt="service" class="services__block_img">
-							<div class="services__elems">
-								<div class="services__elems_title">Педикюр</div>
-								<div class="services__elems_light">1 000 ₽</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="cardBlock services__block">
-							<img src="{% static 'img/services/service6.svg' %}" alt="service" class="services__block_img">
-							<div class="services__elems">
-								<div class="services__elems_title">Окрашивание волос</div>
-								<div class="services__elems_light">5 000 ₽</div>
-							</div>
-						</div>
-					</div>
-
-
+					{% endfor %}
 				</div>
 			</div>
 		</div>
@@ -274,147 +208,35 @@
 				</div>
 
 				<div class="row mastersSlider">
+					{% for master in masters %}
 					<div class="col-md-3">
 						<div class="cardBlock masters__block">
 							<div class="masters__header fic">
-								<img src="{% static 'img/masters/master1.svg' %}" alt="master" class="masters__header_img">
+								{% if master.photo %}
+									<img src="{{ master.photo.url }}" alt="{{ master.name }}" class="masters__header_img">
+								{% else %}
+									<img src="{% static '/img/masters/avatar/all.svg' %}" alt="master" class="masters__header_img">
+								{% endif %}
 								<div class="masters__header_elmes">
-									<div class="masters__header_name">Елизавета Лапина</div>
+									<div class="masters__header_name">{{ master.name }}</div>
 									<img src="{% static 'img/rating.svg' %}" alt="rating" class="masters__header_rating">
-									<div class="masters__header_reviews">24 отзыва</div>
+									<div class="masters__header_reviews">Отзывов: {{ master.comment_count }}</div>
 								</div>
 							</div>
 							<div class="masters__main">
 								<div class="masters__main_speciality">СПЕЦИАЛЬНОСТЬ:</div>
-								<div class="masters__main_intro">Мастер маникюра</div>
+								<div class="masters__main_intro">{{ master.specialty }}</div>
 							</div>
 							<div class="masters__footer fic">
 								<div class="masters__footer_block">
 									<div class="masters__footer_light">СТАЖ РАБОТЫ:</div>
-									<div class="masters__footer_num">3 г. 10 мес.</div>
+									<div class="masters__footer_num">{{ master.get_experience|format_delta }}</div>
 								</div>
 								<button class="masters__footer_btn">Записаться</button>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-3">
-						<div class="cardBlock masters__block">
-							<div class="masters__header fic">
-								<img src="{% static 'img/masters/master2.svg' %}" alt="master" class="masters__header_img">
-								<div class="masters__header_elmes">
-									<div class="masters__header_name">Анастасия Сергеева</div>
-									<img src="{% static 'img/rating.svg' %}" alt="rating" class="masters__header_rating">
-									<div class="masters__header_reviews">96 отзывов</div>
-								</div>
-							</div>
-							<div class="masters__main">
-								<div class="masters__main_speciality">СПЕЦИАЛЬНОСТЬ:</div>
-								<div class="masters__main_intro">Парикмахер</div>
-							</div>
-							<div class="masters__footer fic">
-								<div class="masters__footer_block">
-									<div class="masters__footer_light">СТАЖ РАБОТЫ:</div>
-									<div class="masters__footer_num">4 г. 9 мес.</div>
-								</div>
-								<button class="masters__footer_btn">Записаться</button>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="cardBlock masters__block">
-							<div class="masters__header fic">
-								<img src="{% static 'img/masters/master3.svg' %}" alt="master" class="masters__header_img">
-								<div class="masters__header_elmes">
-									<div class="masters__header_name">Ева Колесова</div>
-									<img src="{% static 'img/rating.svg' %}" alt="rating" class="masters__header_rating">
-									<div class="masters__header_reviews">18 отзывов</div>
-								</div>
-							</div>
-							<div class="masters__main">
-								<div class="masters__main_speciality">СПЕЦИАЛЬНОСТЬ:</div>
-								<div class="masters__main_intro">Визажист</div>
-							</div>
-							<div class="masters__footer fic">
-								<div class="masters__footer_block">
-									<div class="masters__footer_light">СТАЖ РАБОТЫ:</div>
-									<div class="masters__footer_num">1 г. 2 мес.</div>
-								</div>
-								<button class="masters__footer_btn">Записаться</button>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="cardBlock masters__block">
-							<div class="masters__header fic">
-								<img src="{% static 'img/masters/master4.svg' %}" alt="master" class="masters__header_img">
-								<div class="masters__header_elmes">
-									<div class="masters__header_name">Мария Суворова</div>
-									<img src="{% static 'img/rating.svg' %}" alt="rating" class="masters__header_rating">
-									<div class="masters__header_reviews">32 отзыва</div>
-								</div>
-							</div>
-							<div class="masters__main">
-								<div class="masters__main_speciality">СПЕЦИАЛЬНОСТЬ:</div>
-								<div class="masters__main_intro">Стилист</div>
-							</div>
-							<div class="masters__footer fic">
-								<div class="masters__footer_block">
-									<div class="masters__footer_light">СТАЖ РАБОТЫ:</div>
-									<div class="masters__footer_num">1 г. 1 мес.</div>
-								</div>
-								<button class="masters__footer_btn">Записаться</button>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="cardBlock masters__block">
-							<div class="masters__header fic">
-								<img src="{% static 'img/masters/master5.svg' %}" alt="master" class="masters__header_img">
-								<div class="masters__header_elmes">
-									<div class="masters__header_name">Мария Максимова</div>
-									<img src="{% static 'img/rating.svg' %}" alt="rating" class="masters__header_rating">
-									<div class="masters__header_reviews">42 отзыва</div>
-								</div>
-							</div>
-							<div class="masters__main">
-								<div class="masters__main_speciality">СПЕЦИАЛЬНОСТЬ:</div>
-								<div class="masters__main_intro">Стилист</div>
-							</div>
-							<div class="masters__footer fic">
-								<div class="masters__footer_block">
-									<div class="masters__footer_light">СТАЖ РАБОТЫ:</div>
-									<div class="masters__footer_num">3 г. 1 мес.</div>
-								</div>
-								<button class="masters__footer_btn">Записаться</button>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="cardBlock masters__block">
-							<div class="masters__header fic">
-								<img src="{% static 'img/masters/master6.svg' %}" alt="master" class="masters__header_img">
-								<div class="masters__header_elmes">
-									<div class="masters__header_name">Майя Соболева</div>
-									<img src="{% static 'img/rating.svg' %}" alt="rating" class="masters__header_rating">
-									<div class="masters__header_reviews">32 отзыва</div>
-								</div>
-							</div>
-							<div class="masters__main">
-								<div class="masters__main_speciality">СПЕЦИАЛЬНОСТЬ:</div>
-								<div class="masters__main_intro">Визажист</div>
-							</div>
-							<div class="masters__footer fic">
-								<div class="masters__footer_block">
-									<div class="masters__footer_light">СТАЖ РАБОТЫ:</div>
-									<div class="masters__footer_num">1 г. 1 мес.</div>
-								</div>
-								<button class="masters__footer_btn">Записаться</button>
-							</div>
-						</div>
-					</div>
-
-
-
+					{% endfor %}
 				</div>
 			</div>
 		</div>
@@ -425,91 +247,35 @@
 			<div class="reviews pb100">
 				<div class="reviews__slider_arrows fic">
 					<div class="title">Отзывы</div>
-					<div class="slider__arrows fic">
-						<div class="slider__arrows_arrow leftArrow">
-							<i class="arrowRight"></i>
+					{% if comments %}
+						<div class="slider__arrows fic">
+							<div class="slider__arrows_arrow leftArrow">
+								<i class="arrowRight"></i>
+							</div>
+							<div class="slider__arrows_arrow rightArrow">
+								<i class="arrowLleft"></i>
+							</div>
 						</div>
-						<div class="slider__arrows_arrow rightArrow">
-							<i class="arrowLleft"></i>
-						</div>
-					</div>
+					{% endif %}
 				</div>
-
-				<div class="row reviewsSlider">
-					<div class="col-md-3">
-						<div class="reviews__block">
-							<div class="reviews__name">Светлана Г.</div>
-							<img src="{% static 'img/rating.svg' %}" alt="rating" class="reviews__header_rating">
-							<div class="reviews__block_text">
-								Отличное место для красоты, очень доброжелательный и отзывчивый персонал, девочки заботливые, аккуратные и большие профессионалы. Посещаю салон с самого начала, но он не теряет своей привлекательности, как в обслуживании.
+				{% if comments %}
+					<div class="row reviewsSlider">
+					{% for comment in comments %}
+							<div class="col-md-3">
+								<div class="reviews__block">
+									<div class="reviews__name">{{ comment.client.first_name }}</div>
+									<img src="{% static 'img/rating.svg' %}" alt="rating" class="reviews__header_rating">
+									<div class="reviews__block_text">
+										{{ comment.text }}
+									</div>
+									<div class="reviews__block_date">{{ comment.date }}</div>
+								</div>
 							</div>
-							<div class="reviews__block_date">12 ноября 2022</div>
-						</div>
+					{% endfor %}
 					</div>
-					<div class="col-md-3">
-						<div class="reviews__block">
-							<div class="reviews__name">Ольга Н.</div>
-							<img src="{% static 'img/rating.svg' %}" alt="rating" class="reviews__header_rating">
-							<div class="reviews__block_text">
-								Мне всё лень было отзыв писать, но вот "руки дошли". Несколько раз здесь стриглась, мастера звали, кажется, Катя. Все было отлично, приятная молодая женщина и по стрижке вопросов не было)
-							</div>
-							<div class="reviews__block_date">5 ноября 2022</div>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="reviews__block">
-							<div class="reviews__name">Ольга Н.</div>
-							<img src="{% static 'img/rating.svg' %}" alt="rating" class="reviews__header_rating">
-							<div class="reviews__block_text">
-								Мне всё лень было отзыв писать, но вот "руки дошли". Несколько раз здесь стриглась, мастера звали, кажется, Катя. Все было отлично, приятная молодая женщина и по стрижке вопросов не было)
-							</div>
-							<div class="reviews__block_date">5 ноября 2022</div>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="reviews__block">
-							<div class="reviews__name">Елена В.</div>
-							<img src="{% static 'img/rating.svg' %}" alt="rating" class="reviews__header_rating">
-							<div class="reviews__block_text">
-								Делала процедуру микротоки у мастера Светланы . Светлана внимательная, приветливая, ненавязчивая. Рекомендую и мастера, и процедуру. Еще делала бровки у Татьяны , я в восторге , брови просто идеально сдеданы
-							</div>
-							<div class="reviews__block_date">28 октября 2022</div>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="reviews__block">
-							<div class="reviews__name">Виктория Г.</div>
-							<img src="{% static 'img/rating.svg' %}" alt="rating" class="reviews__header_rating">
-							<div class="reviews__block_text">
-								Была на педикюре у Ольги. Очень понравилось. Все инструменты стерильные, упакованы в крафт-пакет. Для меня очень важно было. Оборудование новое.
-							</div>
-							<div class="reviews__block_date">13 октября 2022</div>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="reviews__block">
-							<div class="reviews__name">Анастасия Е.</div>
-							<img src="{% static 'img/rating.svg' %}" alt="rating" class="reviews__header_rating">
-							<div class="reviews__block_text">
-								Сегодня прокололи ушки дочке в этом салоне) Остались довольны обслуживанием и персоналом. Девочки очень приветливые и внимательные . Спасибо большое, всё понравилось)
-							</div>
-							<div class="reviews__block_date">8 октября 2022</div>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="reviews__block">
-							<div class="reviews__name">Алина Ц.</div>
-							<img src="{% static 'img/rating.svg' %}" alt="rating" class="reviews__header_rating">
-							<div class="reviews__block_text">
-								Отличный салон, сервис на самом высоком уровне, всем мастерам огромное уважение за труд, обязательно вернусь
-							</div>
-							<div class="reviews__block_date">1 октября 2022</div>
-						</div>
-					</div>
-
-
-
-
+				{% else %}
+				Отзывов пока нет
+				{% endif %}
 				</div>
 			</div>
 		</div>
@@ -678,7 +444,7 @@
 		<div class="box-modal confirmPopup popup" id="confirmModal">
 			<div class="box-modal_close arcticmodal-close"><img src="{% static 'img/x.svg' %}" alt="x"></div>
 			<div class="popup__title confirmPopup__title">Подтвердите номер</div>
-			<p class="popup__text confirmPopup__text" id="tel3"></p>
+			<p class="popup__text confirmPopup__text" id="tel2"></p>
 			<form action="." method="POST" class="confirmPopup__form" id="confirmPopup">
 				{% csrf_token %}
 				<div class="confirmPopup__number">
@@ -686,7 +452,6 @@
 					<input type="text" name="num2" class="tipsPopup__form_inputNum popup__input" placeholder="" required="">
 					<input type="text" name="num3" class="tipsPopup__form_inputNum popup__input" placeholder="" required="">
 					<input type="text" name="num4" class="tipsPopup__form_inputNum popup__input" placeholder="" required="">
-					<input type="text" id="tel2" name="tel2" class="contacts__form_iunput" value="" hidden="true">
 				</div>
 				<button type="submit" class="popup__btn confirmPopup__btn">Отправить</button>
 		    </form>
@@ -702,5 +467,39 @@
 	<script src="{% static 'js/air-datepicker.js' %}"></script>
 	<script src="{% static 'js/jquery.arcticmodal-0.3.min.js' %}"></script>
 	<script src="{% static 'js/main.js' %}"></script>
+	<script>
+		const button = document.getElementById('authPopup__btn');
+	
+		button.addEventListener('click', async _ => {
+		  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+	
+		  let data = {
+			  'phone_number': document.getElementById('tel').value
+		  };
+	
+		  console.log('csrfmiddlewaretoken: ' + csrftoken);
+		  console.log(data);
+	
+		  try {
+			const response = await fetch(
+			  '{% url 'index' %}',
+			  {
+				headers: {
+					'X-CSRFToken': csrftoken,
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				method: 'post',
+				body: JSON.stringify(data),
+				}
+			);
+	
+			  console.log('Completed!', response);
+	
+		  } catch(err) {
+			console.error(`Error: ${err}`);
+		  }
+		});
+	</script>
 </body>
 </html>

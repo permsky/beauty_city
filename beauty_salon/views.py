@@ -5,31 +5,56 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from django.shortcuts import redirect, render
 
-from .models import CustomUser, Entry, Master, SMSCode
+from .models import (
+    CustomUser,
+    Entry,
+    Master,
+    SMSCode,
+    Salon,
+    Procedure,
+    Comment
+)
+
 
 logger = logging.getLogger(__name__)
 
 
 def index(request):
-    if request.method == 'POST':
-        print(request.POST)
-        phone_number = request.POST.get('tel2')
+    salons = Salon.objects.all()
+    procedures = Procedure.objects.all()
+    masters = Master.objects.all().annotate(comment_count=Count('ratings'))
+    comments = Comment.objects.all()
+
+    context = {
+        'salons': salons,
+        'procedures': procedures,
+        'masters': masters,
+        'comments': comments,
+    }
+    if request.method == 'POST' and not 'num1' in request.POST:
+        body = json.loads(request.body)
+        phone_number = request.session['phone_number'] = body['phone_number']
         user, _ = CustomUser.objects.get_or_create(phone_number=phone_number)
-        code = SMSCode.objects.create(number='1234', client=user)
-        print(code.number)
-        code_text = request.POST.get(
-            'num1') + request.POST.get('num2') + request.POST.get('num3') + request.POST.get('num4')
-        print(code_text)
+        SMSCode.objects.filter(client=user).delete()
+        SMSCode.objects.create(number='1234', client=user)
+    if request.method == 'POST' and 'num1' in request.POST:
+        user = CustomUser.objects.get(phone_number=request.session['phone_number'])
+        code = SMSCode.objects.get(client=user)
+        code_text = (
+            request.POST.get('num1')
+            + request.POST.get('num2')
+            + request.POST.get('num3')
+            + request.POST.get('num4')
+        )
         if code_text == code.number:
             login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
             code.delete()
         else:
             print('Wrong code')
-
-    context = {}
+            code.delete()
 
     return render(request, 'index.html', context)
 
@@ -42,26 +67,29 @@ def adm(request):
 
 @login_required
 def notes(request):
-    if request.method == 'GET':
-        current_date = datetime.now().date()
-        current_time = datetime.now().time()
-        entries = Entry.objects.filter(client=request.user)
-        past_entries = (
-            entries
-            .filter(time_point__date__lte=current_date)
-            .filter(time_point__time__lte=current_time)
+    current_date = datetime.now().date()
+    entries = Entry.objects.filter(client=request.user)
+    past_entries = entries.filter(time_point__date__lt=current_date)
+    future_entries = entries.filter(time_point__date__gt=current_date)
+    current_entries = entries.filter(time_point__date=current_date)
+    debt = entries.filter(status='not_payed').aggregate(Sum('service__price'))
+    context = {
+        'past_entries': past_entries,
+        'future_entries': future_entries,
+        'current_entries': current_entries,
+        'debt': debt
+    }
+    if request.method == 'POST':
+        print(request.POST)
+        request.user.first_name = request.POST['fname']
+        entry = Entry.objects.get(id=request.POST['noteNumber'])
+        Comment.objects.create(
+            text=request.POST['popupTextarea'],
+            date=entry.time_point.date,
+            rating=request.POST['masterRating'],
+            master=entry.time_point.master,
+            client=request.user
         )
-        future_entries = (
-            entries
-            .filter(time_point__date__gt=current_date)
-            .filter(time_point__time__gt=current_time)
-        )
-        debt = entries.filter(status='not_payed').aggregate(Sum('service__price'))
-        context = {
-            'past_entries': past_entries,
-            'future_entries': future_entries,
-            'debt': debt
-        }
 
     return render(request, 'notes.html', context)
 
