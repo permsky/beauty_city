@@ -190,7 +190,7 @@
               </div>
             </div>
 
-            <div class="service__form_block service__masters">
+            <div class="service__form_block service__masters" id="service__masters">
               <button class="accordion" id="id_master">(Выберете мастера)</button>
               <div class="panel">
               </div>
@@ -333,14 +333,24 @@
       const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
       console.log('csrfmiddlewaretoken: ' + csrftoken);
 
-      console.log('Salon: ' + document.getElementById('id_salon').textContent)
-      console.log('Service: ' + document.getElementById('id_service').textContent)
-      console.log('Master: ' + document.getElementById('id_master').textContent)
+      console.log('Salon: ' + document.getElementById('id_salon').textContent);
+      console.log('Service: ' + document.getElementById('id_service').textContent);
+      console.log('Master: ' + document.getElementById('id_master').textContent);
+
+      const div_service__masters = document.getElementById('service__masters');
+      console.log(div_service__masters);
+
+      master = div_service__masters.getElementsByClassName('accordion__block_master')[0].textContent;
+      console.log(master);
+
+      prof = div_service__masters.getElementsByClassName('accordion__block_prof')[0].textContent;
+      console.log(prof);
 
       let data = {
           'salon': document.getElementById('id_salon').textContent,
           'service': document.getElementById('id_service').textContent,
-          'master': document.getElementById('id_master').textContent,
+          'master': master,
+          'prof': prof,
       };
 
       try {
@@ -354,7 +364,7 @@
 
           console.log('Completed!', response);
 
-          //window.location.href = '{% url 'service_finally' %}';
+          // window.location.href = '{% url 'service_finally' %}';
 
       } catch(err) {
         console.error(`Error: ${err}`);
