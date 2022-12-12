@@ -97,19 +97,23 @@ def notes(request):
 
 
 def service(request):
-    context = {}
-
-    # TODO удалить услугу при создании новой.
-    # del request.session['service']
-
     if request.method == 'POST':
         service = json.loads(request.body)
 
         request.session['service'] = service
 
         return redirect('service_finally')
+    else:
+        # TODO удалить услугу при создании новой.
+        # del request.session['service']
 
-    return render(request, 'service.html', context)
+        salons = Salon.objects.all()
+
+        context = {
+            'salons': salons,
+        }
+
+        return render(request, 'service.html', context)
 
 
 def service_finally(request):
