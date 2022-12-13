@@ -356,11 +356,46 @@
       prof = div_service__masters.getElementsByClassName('accordion__block_prof')[0].textContent;
       console.log(prof);
 
+      select_date = document.getElementsByClassName('air-datepicker-cell -day- -selected-');
+
+      if (select_date.length > 0) {
+        console.log(select_date[0]);
+
+        select_date = select_date[0];
+
+        select_year = Number(select_date.getAttribute('data-year'));
+        select_month = Number(select_date.getAttribute('data-month'));
+        select_date = Number(select_date.getAttribute('data-date'));
+
+        select_month += 1;
+
+        select_date = select_year + '-' + select_month + '-' + select_date;
+
+        console.log(select_date);
+      } else {
+        select_date = ''
+      }
+
+      select_time = document.getElementsByClassName('time__elems_btn active');
+
+      if (select_time.length > 0) {
+        console.log(select_time[0]);
+
+        select_time = select_time[0];
+
+        select_time = select_time.getAttribute('data-time');
+        console.log(select_time);
+      } else {
+        select_time = ''
+      }
+
       let data = {
           'salon': document.getElementById('id_salon').textContent,
           'service': document.getElementById('id_service').textContent,
           'master': master,
           'prof': prof,
+          'select_date': select_date,
+          'select_time': select_time,
       };
 
       try {

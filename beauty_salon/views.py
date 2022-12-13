@@ -127,6 +127,8 @@ def service_finally(request):
         salon = service.get('salon')
         master = service.get('master')
         prof = service.get('prof')
+        select_date = service.get('select_date')
+        select_time = service.get('select_time')
         service = service.get('service')
 
         salon = salon.split('#', maxsplit=1)[0].strip()
@@ -141,6 +143,13 @@ def service_finally(request):
 
         service = Procedure.objects.get(name=service)
 
+        if select_date:
+            select_date = datetime.strptime(select_date, '%Y-%m-%d').date()
+        else:
+            select_date = datetime.now().date()
+
+        select_time = datetime.strptime(select_time, '%H:%M').time()
+
         if request.method == 'POST':
             user, is_new_user = CustomUser.objects.get_or_create(
                 phone_number=request.POST.get('tel')
@@ -152,12 +161,18 @@ def service_finally(request):
 
             login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
 
+            time_point, _ = SchedulePoint.objects.get_or_create(
+                date=select_date,
+                time=select_time,
+                master=master
+            )
+
             entry = Entry(
                 status='not_payed',
                 client=user,
                 service=service,
                 salon=salon,
-                time_point=SchedulePoint.objects.all().filter(status='available').first()
+                time_point=time_point
             )
 
             entry.save()
